@@ -8,7 +8,7 @@ import {
   } from '@ant-design/icons';
   import { Layout, Menu,Dropdown } from 'antd';
   import React, { useState } from 'react';
-  import { useNavigate } from "react-router-dom";
+  import { useNavigate , useLocation } from "react-router-dom";
   import Logo from "../../images/logo.jpeg";
   import Time from "../../views/demoOne/time";
 
@@ -17,6 +17,46 @@ import {
   const Frame = (props) => {
     const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate()
+    const { pathname } = useLocation()
+    const menuList = [
+          {
+            key: '/admin/time',
+            icon: <UserOutlined />,
+            label: 'React官网栗子',
+          },
+          {
+            key: '/admin/user',
+            icon: <VideoCameraOutlined />,
+            label: '用户信息',
+          },
+          {
+            key: '/admin/record',
+            icon: <UploadOutlined />,
+            label: '方法练习',
+            children:[
+              {
+                label:'练习demo',
+                key:'/admin/record/practice'
+              }
+            ]
+          },
+    ]
+    const selectKeys = (menuKey) => {
+      let result = []
+
+      const findInfo = (arr) => {
+        arr.forEach(item => {
+          if(menuKey.includes(item.key)){
+            result.push(item.key)
+            if(item.children){
+              findInfo(item.children)
+            }
+          }
+        })
+      }
+      findInfo(menuList)
+      return result
+    }
     return (
       <Layout style={{width:'100%',height:'100vh'}} id='components-layout-demo-custom-trigger'>
         <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -26,33 +66,12 @@ import {
           <Menu
             theme="light"
             mode="inline"
-            defaultSelectedKeys={['1']}
+            defaultOpenKeys={selectKeys(pathname)}
+            defaultSelectedKeys={selectKeys(pathname)}
             onClick={({key})=>{
               navigate(key)
             }}
-            items={[ 
-              {
-                key: '/admin/time',
-                icon: <UserOutlined />,
-                label: 'React官网栗子',
-              },
-              {
-                key: '/admin/user',
-                icon: <VideoCameraOutlined />,
-                label: '用户信息',
-              },
-              {
-                key: '/admin/record',
-                icon: <UploadOutlined />,
-                label: '方法练习',
-                children:[
-                  {
-                    label:'练习demo',
-                    key:'/admin/record/practice'
-                  }
-                ]
-              },
-            ]}
+            items={menuList}
           />
         </Sider>
         <Layout className="site-layout">
