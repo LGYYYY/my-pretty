@@ -38,3 +38,7 @@
   margin: 16px auto;
   border-radius: 10px;
 }
+
+.site-layout-background{
+  overflow-y: scroll;
+}

@@ -11,11 +11,16 @@ import {
   import { useNavigate , useLocation } from "react-router-dom";
   import Logo from "../../images/logo.jpeg";
   import Time from "../../views/demoOne/time";
+  import {store} from "../../store/store";
 
   const { Header, Sider, Content } = Layout;
 
   const Frame = (props) => {
     const [collapsed, setCollapsed] = useState(false);
+    const [rolename, setRoleName] = useState(store.getState().Login.userInfo);
+    store.subscribe(()=>{
+      setRoleName(store.getState().Login.userInfo)
+    })
     const navigate = useNavigate()
     const { pathname } = useLocation()
     const menuList = [
@@ -32,12 +37,27 @@ import {
           {
             key: '/admin/record',
             icon: <UploadOutlined />,
-            label: '方法练习',
+            label: '课题分离：练习',
             children:[
               {
                 label:'练习demo',
                 key:'/admin/record/practice'
               }
+            ]
+          },
+          {
+            key: '/admin/redux',
+            icon: <UploadOutlined />,
+            label: '课题分离：理论',
+            children:[
+              {
+                label:'描述reduxThunk',
+                key:'/admin/redux/reduxThunk'
+              },
+              {
+                label:'面试题',
+                key:'/admin/redux/jobInterview'
+              },
             ]
           },
     ]
@@ -57,6 +77,29 @@ import {
       findInfo(menuList)
       return result
     }
+
+    const items = (
+    <Menu 
+      theme="light"
+      mode="inline"
+      onClick={({key})=>{
+        navigate(key)
+      }}
+      items={[
+        {
+          key: '/login',
+          icon: <LogoutOutlined />,
+          label: '退出登录',
+        },
+        {
+          key: '/admin/user',
+          icon: <VideoCameraOutlined />,
+          label: '我的',
+        },
+      ]}
+      >
+    </Menu>)
+  
     return (
       <Layout style={{width:'100%',height:'100vh'}} id='components-layout-demo-custom-trigger'>
         <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -90,29 +133,9 @@ import {
                 <div style={{display:'flex',alignItems:'center',marginLeft:'10px'}}>现在<Time/></div>
               </div>
               <div>
-                <Dropdown menu={
-                  <Menu 
-                    theme="light"
-                    mode="inline"
-                    onClick={({key})=>{
-                      navigate(key)
-                    }}
-                    items={[
-                      {
-                        key: '/login',
-                        icon: <LogoutOutlined />,
-                        label: '退出登录',
-                      },
-                      {
-                        key: '/admin/user',
-                        icon: <VideoCameraOutlined />,
-                        label: '我的',
-                      },
-                    ]}
-                    >
-                  </Menu>
-                }>
-                  <a>管理员</a>
+                {/* overlay 使用 menu 会报错，一定要跟api文档一致 */}
+                <Dropdown overlay={items}>
+                  <a>{rolename.rolename}</a>
                 </Dropdown>
               </div>
             </div>
