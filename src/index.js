@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import Login from "./views/login/index";
+import CreateUser from "./views/createUser/index";
+import Private from "./Private";
 
 //redux - 使用夸组件通信的方法将store中的数据通信给所有的组件
 import { Provider } from "react-redux";
@@ -19,7 +21,8 @@ root.render(
           <BrowserRouter>
             <Routes>
               <Route path='/login' element={<Login />}></Route>
-              <Route path='/admin/*' element={<App />}></Route>
+              <Route path='/createUser' element={<CreateUser />}></Route>
+              <Route path='/admin/*' element={<Private><App /></Private>}></Route>
             </Routes>
           </BrowserRouter>
         </PersistGate>

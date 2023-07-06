@@ -23,7 +23,7 @@ export default class time extends Component {
             date: new Date()
         });
     }
-
+    
     render() {
         return (
         <div>

@@ -12,15 +12,16 @@ import {
   import Logo from "../../images/logo.jpeg";
   import Time from "../../views/demoOne/time";
   import {store} from "../../store/store";
+import Cookies from 'js-cookie';
 
   const { Header, Sider, Content } = Layout;
 
   const Frame = (props) => {
     const [collapsed, setCollapsed] = useState(false);
-    const [rolename, setRoleName] = useState(store.getState().Login.userInfo);
-    store.subscribe(()=>{
-      setRoleName(store.getState().Login.userInfo)
-    })
+    // const [rolename, setRoleName] = useState(store.getState().Login.userInfo);
+    // store.subscribe(()=>{
+    //   setRoleName(store.getState().Login.userInfo)
+    // })
     const navigate = useNavigate()
     const { pathname } = useLocation()
     const menuList = [
@@ -83,6 +84,10 @@ import {
       theme="light"
       mode="inline"
       onClick={({key})=>{
+        console.log(key,'key');
+        if(key = '/login'){
+          Cookies.remove('TOKEN_PARAMS')
+        }
         navigate(key)
       }}
       items={[
@@ -135,7 +140,8 @@ import {
               <div>
                 {/* overlay 使用 menu 会报错，一定要跟api文档一致 */}
                 <Dropdown overlay={items}>
-                  <a>{rolename.rolename}</a>
+                  {/* <a>{rolename.rolename}</a> */}
+                  <a>123</a>
                 </Dropdown>
               </div>
             </div>

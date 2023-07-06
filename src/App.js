@@ -5,7 +5,7 @@ import MethodsRecord from "./views/methodsRecord/index";
 import User from "./views/users/index";
 import ReduxDemo from "./views/reduxDescribe/index";
 import JobInterview from "./views/JobInterview/index";
-import { Routes, Route,Navigate } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 import Frame from "./components/Frame/index";
 
 function App() {

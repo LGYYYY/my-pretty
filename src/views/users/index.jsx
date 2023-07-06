@@ -7,9 +7,9 @@ export const User = (props) => {
 
   return (
     <div>
-      <p>用户名:{loginInfo.rolename}</p>
+      {/* <p>用户名:{loginInfo.nickName}</p>
       <p>账号:{loginInfo.username}</p>
-      <p>密码:{loginInfo.password}</p>
+      <p>密码:{loginInfo.password}</p> */}
     </div>
   )
 }

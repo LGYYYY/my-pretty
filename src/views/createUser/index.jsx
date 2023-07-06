@@ -1,34 +1,39 @@
-import React,{ useEffect,useState } from 'react'
-import { Button, Form, Input } from 'antd';
-import { useNavigate } from "react-router-dom";
+import React from 'react'
+import { connect } from 'react-redux'
+import { Button, Form, Input, message } from 'antd';
+import { useNavigate, useSearchParams } from "react-router-dom";
 import s from "./index.module.scss";
 import { MyLogo } from "../../utils/tools";
 import * as loginActions from "../../actions/loginActions";
-//redux - 组建是需要通过一个叫做connect调用的返回值是一个高阶组件 来获取store中的数据
-import { connect } from "react-redux";
 
-//redux hooks可以通过 useDispatch去派发，useSlector去获取sotre数据  useSlector((state) => {state})
+const CreateUser = (props) => {
+    const navigate = useNavigate() 
+    const [getSearchArr] = useSearchParams()
 
-const Login = (props)=>{
-  const navigate = useNavigate() 
-
-  const onFinish = (values) => {
-    props.getNestLogin(values,res => {
-      console.log(res,'res');
-      navigate('/admin/user')
-    })
-  }
-
-  const goCreate = (type) => {
-    navigate(`/createUser?type=${type}`)
-  }
-
+    const onFinish = (values) => {
+        if(getSearchArr.getAll('type') == 'create'){
+            props.createUser(values,res => {
+                if(res.success){
+                    message.success(res.message)
+                    navigate('/login')
+                }else{
+                    message.error(res.message)
+                }
+            })
+        }else{
+            props.upDateUser(values,res => {
+                console.log(res,'res');
+                // navigate('/login')
+            })
+        }
+        
+    }
   return (
     <div className={s.login}>
       <div style={{paddingTop:'100px'}}>
         <img src={MyLogo} className={s.logo}/>
       </div>
-      <p className={s.title}>LGY的进步记录</p>
+      <p className={s.title}>{getSearchArr.getAll('type') == 'create' ? '注册账号' : '修改密码'}</p>
       <div className={s.form}>
         <Form
           name="login"
@@ -62,6 +67,7 @@ const Login = (props)=>{
           >
             <Input placeholder='请输入账号'/>
           </Form.Item>
+
           <Form.Item
             label="密 码："
             name="passWord"
@@ -76,28 +82,24 @@ const Login = (props)=>{
           </Form.Item>
           <Form.Item style={{marginBottom:'10px'}}>
             <div className={s.btn}>
-            <Button type="primary" htmlType="submit">
-              登录
-            </Button>
-            <Button type="primary" onClick={()=>{goCreate('create')}}>
-              注册
-            </Button>
+                <Button type="primary" htmlType="submit">
+                    {getSearchArr.getAll('type') == 'create' ? '注册账号' : '修改密码'}
+                </Button>
+                
             </div>
           </Form.Item>
-          <div style={{float:'right',textAlign:'center',width:'80%'}}><a onClick={()=>{goCreate('update')}}>忘记密码</a></div>
+          <div style={{float:'right',textAlign:'center',width:'80%'}}>已有账号？直接<a onClick={()=>{navigate('/login')}}>登录</a></div>
         </Form>
       </div>
     </div>
   )
 }
 
-//redux - connect有两个参数，第一个参数用来获取store中的state数据，第二个参数用来获取redux的actionCreators中的创建动作的方法
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => ({})
 
-});
+const mapDispatchToProps =(dispatch) => ({
+    createUser:(params,callback) => dispatch(loginActions.createUser(params,callback)),
+    upDateUser:(params,callback) => dispatch(loginActions.upDateUser(params,callback))
+})
 
-const mapDispatchToProps = (dispatch) => ({
-  getNestLogin: (params, callback) => dispatch(loginActions.getNestLogin(params, callback)),
-});
-
-export default connect(mapStateToProps,mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateUser)
