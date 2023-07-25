@@ -22,8 +22,12 @@ const CreateUser = (props) => {
             })
         }else{
             props.upDateUser(values,res => {
-                console.log(res,'res');
-                // navigate('/login')
+                if(res.success){
+                  message.success(res.message)
+                  navigate('/login')
+              }else{
+                  message.error(res.message)
+              }
             })
         }
         

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter,Routes,Route } from 'react-router-dom';
+import { BrowserRouter,Routes,Route,Navigate } from 'react-router-dom';
 import Login from "./views/login/index";
 import CreateUser from "./views/createUser/index";
 import Private from "./Private";
@@ -20,6 +20,7 @@ root.render(
         <PersistGate persistor={persistor}>
           <BrowserRouter>
             <Routes>
+              <Route path="/" element={ <Navigate to="/login" /> } />
               <Route path='/login' element={<Login />}></Route>
               <Route path='/createUser' element={<CreateUser />}></Route>
               <Route path='/admin/*' element={<Private><App /></Private>}></Route>

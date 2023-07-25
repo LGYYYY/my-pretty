@@ -12,7 +12,6 @@ switch (process.env.NODE_ENV) {
       HOST_NAME = 'http://localhost:3001'//nestjs端口
   }
 
-  console.log(HOST_NAME,'HOST_NAME');
 export default {
     HOST_NAME: HOST_NAME,
 

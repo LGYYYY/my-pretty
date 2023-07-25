@@ -14,7 +14,6 @@ const Login = (props)=>{
 
   const onFinish = (values) => {
     props.getNestLogin(values,res => {
-      console.log(res,'res');
       navigate('/admin/user')
     })
   }

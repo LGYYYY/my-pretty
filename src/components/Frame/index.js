@@ -5,6 +5,7 @@ import {
     UserOutlined,
     VideoCameraOutlined,
     LogoutOutlined,
+    DownOutlined
   } from '@ant-design/icons';
   import { Layout, Menu,Dropdown } from 'antd';
   import React, { useState } from 'react';
@@ -43,7 +44,11 @@ import Cookies from 'js-cookie';
               {
                 label:'练习demo',
                 key:'/admin/record/practice'
-              }
+              },
+              {
+                label:'todoList',
+                key:'/admin/record/todoList'
+              },
             ]
           },
           {
@@ -141,7 +146,7 @@ import Cookies from 'js-cookie';
                 {/* overlay 使用 menu 会报错，一定要跟api文档一致 */}
                 <Dropdown overlay={items}>
                   {/* <a>{rolename.rolename}</a> */}
-                  <a>123</a>
+                  <a>个人中心   <DownOutlined/></a>
                 </Dropdown>
               </div>
             </div>
